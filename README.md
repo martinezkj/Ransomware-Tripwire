@@ -30,7 +30,7 @@ The "Honey-Folder" defense relies on a three-node pipeline to move data from the
 - **Data Flow:** `Sysmon Events → Wazuh Agent → Wazuh Manager (Rule Matching) → Dashboard Alert`.
 
 Figure 1: Custom Wazuh rule (ID: 100005) configured with a Level 12 severity to trigger on any file creation within the protected directory.
-![Local Rules XML](Local Rules XML.jpg)
+![Local Rules XML](<Local Rules XML.jpg>)
 ### The Configuration & The "Silent Service" Mistake
 
 I updated the `sysmon-config.xml` on VM3 to filter for **Event ID 11 (FileCreate)** and **Event ID 23 (FileDelete)** within the `Archive_Internal` directory. On the Wazuh Manager, I edited `local_rules.xml` to include **Rule ID 100005**, set to **Level 12 (Critical)**.
