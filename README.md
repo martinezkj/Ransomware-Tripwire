@@ -67,6 +67,7 @@ Figure 2: The 'Security Events' dashboard showing a sudden spike in alerts as th
 
 The `cmd /c del` command execution.
 ![CMD Delete Command](<CMD c del Execution line.jpg>)
+
 Figure 3: Forensic telemetry captured by Sysmon, showing the transition from file existence to deletion (Event ID 23) after the cleanup command was executed.
 ![Event ID 23 Log](<Exp2 - Event ID 23 Custom Rule in Log Table 1.jpg>)
 
@@ -84,6 +85,7 @@ Figure 3: Forensic telemetry captured by Sysmon, showing the transition from fil
 
 The manual "Copy/Paste" of the sensitive file.
 ![Copy Command](<Copy cmd Execution line.jpg>)
+
 Figure 4: Detailed alert payload in the Wazuh UI confirming that a manual copy-paste operation was successfully intercepted.
 ![Secret Passcodes Alert](<Exp3 - Secret Passcodes file Safety Shuffle 2.jpg>)
 
