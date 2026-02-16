@@ -30,7 +30,7 @@ The "Honey-Folder" defense relies on a three-node pipeline to move data from the
 - **Data Flow:** `Sysmon Events → Wazuh Agent → Wazuh Manager (Rule Matching) → Dashboard Alert`.
 
 Figure 1: Custom Wazuh rule (ID: 100005) configured with a Level 12 severity to trigger on any file creation within the protected directory.
-![[Local Rules XML.jpg]]
+![Alt Text](Local Rules XML.jpg)
 ### The Configuration & The "Silent Service" Mistake
 
 I updated the `sysmon-config.xml` on VM3 to filter for **Event ID 11 (FileCreate)** and **Event ID 23 (FileDelete)** within the `Archive_Internal` directory. On the Wazuh Manager, I edited `local_rules.xml` to include **Rule ID 100005**, set to **Level 12 (Critical)**.
@@ -52,7 +52,7 @@ I updated the `sysmon-config.xml` on VM3 to filter for **Event ID 11 (FileCreate
 - **Analysis:** The result matched my expectation; Rule 100005 dominated the timeline. However, I noticed that 100 files generated 100 separate alerts. In a production environment, I realized I would need to implement **alert composition (frequency/syscheck)** to avoid flooding the analyst.
 
 Figure 2: The 'Security Events' dashboard showing a sudden spike in alerts as the mass-encryption script populates the honey-folder.
-![[Exp1 - Dashboard 1.jpg]]
+![Alt Text](Exp1 - Dashboard 1.jpg)
 ### Experiment #2: Mass File Deletion (Data Destruction)
 
 - **Inquiry:** Does the system capture the "cleanup" phase where ransomware deletes originals?
@@ -66,9 +66,9 @@ Figure 2: The 'Security Events' dashboard showing a sudden spike in alerts as th
 - **Analysis:** I successfully exported the final log count to an XLSX file. This proved that even if the files are gone, the forensic "ghost" remains in the SIEM.
 
 The `cmd /c del` command execution.
-![[CMD c del Execution line.jpg]]
+![Alt Text](CMD c del Execution line.jpg)
 Figure 3: Forensic telemetry captured by Sysmon, showing the transition from file existence to deletion (Event ID 23) after the cleanup command was executed.
-![[Exp2 - Event ID 23 Custom Rule in Log Table 1.jpg]]
+![Alt Text](Exp2 - Event ID 23 Custom Rule in Log Table 1.jpg)
 
 ### Experiment #3: Manual Interaction Baseline (The Human Element)
 
@@ -83,9 +83,9 @@ Figure 3: Forensic telemetry captured by Sysmon, showing the transition from fil
 - **Analysis:** This highlighted a critical limitation in basic file-creation monitoring: "Moving" a file is often a silent operation at the telemetry level compared to "Copying" or "Writing." For a production environment, I now know I would need to expand my Sysmon configuration to include **Event ID 2 (A process changed a file creation time)** to catch these more subtle file system moves.
 
 The manual "Copy/Paste" of the sensitive file.
-![[Copy cmd Execution line.jpg]]
+![Alt Text](Copy cmd Execution line.jpg)
 Figure 4: Detailed alert payload in the Wazuh UI confirming that a manual copy-paste operation was successfully intercepted.
-![[Exp3 - Secret Passcodes file Safety Shuffle 2.jpg]]
+![Alt Text](Exp3 - Secret Passcodes file Safety Shuffle 2.jpg)
 
 ---
 
